@@ -1,12 +1,3 @@
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 import { processCSV, filterData, paginateData, processDataForChart, convertToCSV, sortData } from '../models/functions.js';
 import { createTable, createPagination, initializeUI, createChart, downloadCSV } from './interface.controllers.js';
 let allData = [];
@@ -52,19 +43,17 @@ function displayTable(data) {
         });
     }
 }
-function handleFileUpload(file) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const content = yield readCSV(file);
-            allData = processCSV(content);
-            filteredData = [...allData]; // Inicializa filteredData con todos los datos
-            currentPage = 1;
-            displayTable(filteredData);
-        }
-        catch (error) {
-            alert(error);
-        }
-    });
+async function handleFileUpload(file) {
+    try {
+        const content = await readCSV(file);
+        allData = processCSV(content);
+        filteredData = [...allData]; // Inicializa filteredData con todos los datos
+        currentPage = 1;
+        displayTable(filteredData);
+    }
+    catch (error) {
+        alert(error);
+    }
 }
 function handleSort(column) {
     if (!filteredData || filteredData.length === 0) {
@@ -98,14 +87,12 @@ function handleExport() {
     const filename = `datos_filtrados_${new Date().toISOString()}.csv`;
     downloadCSV(csv, filename);
 }
-function readCSV(file) {
-    return __awaiter(this, void 0, void 0, function* () {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = (event) => { var _a; return resolve((_a = event.target) === null || _a === void 0 ? void 0 : _a.result); };
-            reader.onerror = (error) => reject(error);
-            reader.readAsText(file);
-        });
+async function readCSV(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (event) => { var _a; return resolve((_a = event.target) === null || _a === void 0 ? void 0 : _a.result); };
+        reader.onerror = (error) => reject(error);
+        reader.readAsText(file);
     });
 }
 document.addEventListener('DOMContentLoaded', () => {

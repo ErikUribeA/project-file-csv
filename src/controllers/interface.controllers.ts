@@ -90,3 +90,44 @@ export function downloadCSV(csv: string, filename: string) {
     }
 }
 
+
+export function createChart(data: { labels: string[], values: number[] }) {
+    const ctx = document.getElementById('municipiosChart') as HTMLCanvasElement;
+    
+    // Destruye el gráfico existente si hay uno
+    if (Chart.getChart(ctx)) {
+        Chart.getChart(ctx)?.destroy();
+    }
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: data.labels,
+            datasets: [{
+                label: 'Número de Municipios por Departamento',
+                data: data.values,
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Número de Municipios'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Departamentos'
+                    }
+                }
+            }
+        }
+    });
+}

@@ -121,6 +121,23 @@ function paginateData(data: RowData[], pageSize: number, pageNumber: number): Ro
     return data.slice(start, start + pageSize);
 }
 
+//funcion para procesar los datos a graficar
+function processDataForChart(data: RowData[]): { labels: string[], values: number[] } {
+    const departamentos = new Map<string, number>();
+    
+    data.forEach(row => {
+        const departamento = row['DEPARTAMENTO'] as string;
+        departamentos.set(departamento, (departamentos.get(departamento) || 0) + 1);
+    });
+
+    return {
+        labels: Array.from(departamentos.keys()),
+        values: Array.from(departamentos.values())
+    };
+}
+
+
+
 function convertToCSV(data: RowData[]): string {
     if (data.length === 0) return '';
 
