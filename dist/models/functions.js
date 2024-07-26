@@ -1,4 +1,3 @@
-"use strict";
 // Definir los tipos de datos esperados para cada columna
 var ColumnType;
 (function (ColumnType) {
@@ -95,3 +94,20 @@ function paginateData(data, pageSize, pageNumber) {
     const start = (pageNumber - 1) * pageSize;
     return data.slice(start, start + pageSize);
 }
+function sortData(data, column, direction) {
+    return [...data].sort((a, b) => {
+        let valueA = a[column];
+        let valueB = b[column];
+        // Convertir a número si es posible
+        if (!isNaN(Number(valueA)) && !isNaN(Number(valueB))) {
+            valueA = Number(valueA);
+            valueB = Number(valueB);
+        }
+        if (valueA < valueB)
+            return direction === 'asc' ? -1 : 1;
+        if (valueA > valueB)
+            return direction === 'asc' ? 1 : -1;
+        return 0;
+    });
+}
+export { processCSV, filterData, paginateData, processDataForChart, convertToCSV, sortData };
