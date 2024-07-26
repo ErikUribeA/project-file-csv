@@ -121,6 +121,26 @@ function paginateData(data: RowData[], pageSize: number, pageNumber: number): Ro
     return data.slice(start, start + pageSize);
 }
 
+function convertToCSV(data: RowData[]): string {
+    if (data.length === 0) return '';
+
+    const headers = Object.keys(data[0]);
+    const csvRows = [
+        headers.join(','), // Encabezados
+        ...data.map(row => headers.map(header => {
+            let cell = row[header]?.toString() || '';
+            // Escapar comillas dobles y envolver en comillas si es necesario
+            cell = cell.includes(',') || cell.includes('"') || cell.includes('\n') 
+                ? `"${cell.replace(/"/g, '""')}"` 
+                : cell;
+            return cell;
+        }).join(','))
+    ];
+
+    return csvRows.join('\n');
+}
+
+
 function sortData(data: RowData[], column: string, direction: 'asc' | 'desc'): RowData[] {
     return [...data].sort((a, b) => {
         let valueA = a[column];

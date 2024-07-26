@@ -94,6 +94,24 @@ function paginateData(data, pageSize, pageNumber) {
     const start = (pageNumber - 1) * pageSize;
     return data.slice(start, start + pageSize);
 }
+function convertToCSV(data) {
+    if (data.length === 0)
+        return '';
+    const headers = Object.keys(data[0]);
+    const csvRows = [
+        headers.join(','), // Encabezados
+        ...data.map(row => headers.map(header => {
+            var _a;
+            let cell = ((_a = row[header]) === null || _a === void 0 ? void 0 : _a.toString()) || '';
+            // Escapar comillas dobles y envolver en comillas si es necesario
+            cell = cell.includes(',') || cell.includes('"') || cell.includes('\n')
+                ? `"${cell.replace(/"/g, '""')}"`
+                : cell;
+            return cell;
+        }).join(','))
+    ];
+    return csvRows.join('\n');
+}
 function sortData(data, column, direction) {
     return [...data].sort((a, b) => {
         let valueA = a[column];
