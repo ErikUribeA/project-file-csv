@@ -91,3 +91,30 @@ function handleFilter(searchTerm: string) {
     displayTable(filteredData);
 }
 
+
+function handleExport() {
+    if (filteredData.length === 0) {
+        alert('No hay datos para exportar');
+        return;
+    }
+    const csv = convertToCSV(filteredData);
+    const filename = `datos_filtrados_${new Date().toISOString()}.csv`;
+    downloadCSV(csv, filename);
+}
+
+async function readCSV(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (event) => resolve(event.target?.result as string);
+        reader.onerror = (error) => reject(error);
+        reader.readAsText(file);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initializeUI(handleFileUpload, handleFilter, handleExport);
+});
+
+// Asignar la función goToPage al objeto window para que esté disponible globalmente
+(window as any).goToPage = goToPage;
+
