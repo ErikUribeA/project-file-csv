@@ -82,3 +82,16 @@ function parseCSVLine(line) {
     result.push(current);
     return result;
 }
+// Función para filtrar los datos
+function filterData(data, searchTerm) {
+    const filteredData = data.filter(row => Object.values(row).some(value => value.toString().toLowerCase().includes(searchTerm.toLowerCase())));
+    if (filteredData.length === 0) {
+        alert(`${searchTerm} no se encuentra en la base de datos`);
+    }
+    return filteredData;
+}
+// Función para paginar los datos
+function paginateData(data, pageSize, pageNumber) {
+    const start = (pageNumber - 1) * pageSize;
+    return data.slice(start, start + pageSize);
+}

@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { processCSV, filterData, paginateData, processDataForChart } from '../models/functions.js';
+import { processCSV, filterData, paginateData, processDataForChart, sortData } from '../models/functions.js';
 import { createTable, createPagination, createChart } from './interface.controllers.js';
 let allData = [];
 let currentPage = 1;
@@ -65,4 +65,27 @@ function handleFileUpload(file) {
             alert(error);
         }
     });
+}
+function handleSort(column) {
+    if (!filteredData || filteredData.length === 0) {
+        return; // No hacer nada si no hay datos
+    }
+    if (column === currentSortColumn) {
+        // Cambiar dirección si se hace clic en la misma columna
+        currentSortDirection = currentSortDirection === 'asc' ? 'desc' : 'asc';
+    }
+    else {
+        currentSortColumn = column;
+        currentSortDirection = 'asc';
+    }
+    filteredData = sortData(filteredData, column, currentSortDirection);
+    currentPage = 1;
+    displayTable(filteredData);
+}
+function handleFilter(searchTerm) {
+    filteredData = filterData(allData, searchTerm);
+    currentSortColumn = null;
+    currentSortDirection = null;
+    currentPage = 1;
+    displayTable(filteredData);
 }

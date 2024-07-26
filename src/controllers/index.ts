@@ -64,3 +64,30 @@ async function handleFileUpload(file: File) {
         alert(error);
     }
 }
+
+function handleSort(column: string) {
+    if (!filteredData || filteredData.length === 0) {
+        return; // No hacer nada si no hay datos
+    }
+
+    if (column === currentSortColumn) {
+        // Cambiar dirección si se hace clic en la misma columna
+        currentSortDirection = currentSortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+        currentSortColumn = column;
+        currentSortDirection = 'asc';
+    }
+
+    filteredData = sortData(filteredData, column, currentSortDirection);
+    currentPage = 1;
+    displayTable(filteredData);
+}
+
+function handleFilter(searchTerm: string) {
+    filteredData = filterData(allData, searchTerm);
+    currentSortColumn = null;
+    currentSortDirection = null;
+    currentPage = 1;
+    displayTable(filteredData);
+}
+
