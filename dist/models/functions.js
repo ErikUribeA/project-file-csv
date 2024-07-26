@@ -94,6 +94,18 @@ function paginateData(data, pageSize, pageNumber) {
     const start = (pageNumber - 1) * pageSize;
     return data.slice(start, start + pageSize);
 }
+//funcion para procesar los datos a graficar
+function processDataForChart(data) {
+    const departamentos = new Map();
+    data.forEach(row => {
+        const departamento = row['DEPARTAMENTO'];
+        departamentos.set(departamento, (departamentos.get(departamento) || 0) + 1);
+    });
+    return {
+        labels: Array.from(departamentos.keys()),
+        values: Array.from(departamentos.values())
+    };
+}
 function convertToCSV(data) {
     if (data.length === 0)
         return '';
