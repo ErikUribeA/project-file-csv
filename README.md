@@ -18,25 +18,25 @@ Datos Colombia es una aplicación web que permite cargar, visualizar, filtrar y 
 - Chart.js para la visualización de gráficos
 
 ## Estructura del Proyecto
-├── dist/
-│   ├── controllers/
-│   │   ├── index.js
-│   │   └── interface.controllers.js
-│   ├── models/
-│   │   └── functions.js
-│   └── views/
-│       ├── img/
-│       │   └── logo
-│       ├── style/
-│       │   └── style.css
-│       └── index.html
-│
-└── src/
-├── controllers/
-│   ├── index.ts
-│   └── interface.controllers.ts
-└── models/
-└── functions.ts
+proyecto/
+    dist/
+        controllers/
+            index.js
+            interface.controllers.js
+        models/
+            functions.js
+        views/
+            img/
+                logo
+            style/
+                style.css
+            index.html
+    src/
+        controllers/
+            index.ts
+            interface.controllers.ts
+        models/
+            functions.ts
 ## Instalación
 Clona el repositorio:
 -Instala Visual Studio Code:
